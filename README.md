@@ -74,5 +74,26 @@ Por fim, basta execurtamos o comando docker `docker container stop 5198670617c7`
 ## Removendo container
 
 Para remover um container, basta executarmos `docker container rm 5198670617c7` ou `docker container rm -f 5198670617c7` para forcar a paralisação, e posteriormente, deletar este container. 
-Podemos passar tabem os 3 primeiros caracteres do id do container. Para remover todos de uma vez só, `docker container rm $(docker container ls -a -q)`. 
+Podemos passar tabem os 3 primeiros caracteres do id do container. Para remover todos de uma vez só, `docker container rm $(docker container ls -a -q)`.
+
+## Nomeando containers
+
+`docker container run -d -p 8080:80 --name appNginx nginx`
+
+## Verificando logs
+
+`docker container logs appNginx`, basta realizar uma requisição para o container, para que os logs sejam mostrados no terminal. 
+Para que os logs sejam mostrados de forma constante, basta adicionar o parametro -f log apos a palavra logs
+
+## Processos de um container
+
+`docker container top appNginx`
+
+## Utilização de recursos do computador
+
+`docker container stats` ou um container especifico `docker container stats appNginx`
+
+## Verificar informacoes do container
+
+`docker container inspect appNginx`
 
