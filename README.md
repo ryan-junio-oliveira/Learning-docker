@@ -51,8 +51,28 @@ Este é um guia abrangente para os principais comandos do Docker. Aqui estão ma
 - `docker volume rm <volume>`: Remove um ou mais volumes.
 - `docker volume prune`: Remove volumes não utilizados.
 
-Esses comandos abrangem uma variedade de funcionalidades do Docker para ajudar no gerenciamento eficiente de imagens, containers, redes e volumes. Explore mais opções e detalhes na documentação oficial do Docker, consulte o [site oficial do Docker](https://docs.docker.com/) para aprofundar seu conhecimento e aproveitar ao máximo essa poderosa ferramenta de virtualização de contêineres.
+Esses comandos abrangem uma variedade de funcionalidades do Docker para ajudar no gerenciamento eficiente de imagens, containers, redes e volumes. 
+Explore mais opções e detalhes na documentação oficial do Docker, consulte o [site oficial do Docker](https://docs.docker.com/) para aprofundar seu conhecimento e aproveitar ao máximo essa poderosa ferramenta de virtualização de contêineres.
 
-# Criando o primeiro container
+# Gerenciando Containers
 
+## Iniciando
+No terminal, iremos digitar o seguinte comando:
+`docker container run -p 8080:80 nginx`
+Caso nao tenhamos a imagem localmente em nossa máquina, o próprio docker se encarregará de baixa-la. abra um novo terminal e digite o comando `docker container ls` para verificar a execução do container. 
+Por fim, basta acessarmos o enderço `http://127.0.0.1:8080` , e veremos á página de boas vindas do nginx sendo mostrada devidamente.
+
+## Parando o Container
+
+Para pararmos um container em execução, inicialmente, vamos listar todos os containers para saber qual o id do container que iremos parar, novamente `docker container ls`.
+
+* `CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                  NAMES
+5198670617c7   nginx     "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp   awesome_mestorf
+` 
+Por fim, basta execurtamos o comando docker `docker container stop 5198670617c7`.
+
+## Removendo container
+
+Para remover um container, basta executarmos `docker container rm 5198670617c7` ou `docker container rm -f 5198670617c7` para forcar a paralisação, e posteriormente, deletar este container. 
+Podemos passar tabem os 3 primeiros caracteres do id do container. Para remover todos de uma vez só, `docker container rm $(docker container ls -a -q)`. 
 
