@@ -52,3 +52,7 @@ Este é um guia abrangente para os principais comandos do Docker. Aqui estão ma
 - `docker volume prune`: Remove volumes não utilizados.
 
 Esses comandos abrangem uma variedade de funcionalidades do Docker para ajudar no gerenciamento eficiente de imagens, containers, redes e volumes. Explore mais opções e detalhes na documentação oficial do Docker, consulte o [site oficial do Docker](https://docs.docker.com/) para aprofundar seu conhecimento e aproveitar ao máximo essa poderosa ferramenta de virtualização de contêineres.
+
+# Criando o primeiro container
+
+
