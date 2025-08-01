@@ -5,6 +5,8 @@ Este é um guia abrangente para os principais comandos do Docker. Aqui estão ma
 # Site para gerar projetos
 https://phpdocker.io/
 
+---
+
 ## Comandos Gerais
 
 - `docker --version`: Exibe a versão instalada do Docker.
@@ -16,6 +18,8 @@ https://phpdocker.io/
 - `docker login`: Faz login no Docker Hub.
 - `docker logout`: Faz logout do Docker Hub.
 
+---
+
 ## Gerenciamento de Imagens
 
 - `docker image ls`: Lista todas as imagens Docker locais.
@@ -24,6 +28,8 @@ https://phpdocker.io/
 - `docker push <imagem>`: Envia uma imagem para o Docker Hub ou um registro especificado.
 - `docker rmi <imagem>`: Remove uma ou mais imagens locais.
 - `docker image prune`: Remove imagens não utilizadas.
+
+---
 
 ## Gerenciamento de Containers
 
@@ -37,6 +43,8 @@ https://phpdocker.io/
 - `docker exec -it <container> <comando>`: Executa um comando em um container em execução.
 - `docker stats <container>`: Exibe estatísticas de uso de recursos de um container.
 
+---
+
 ## Gerenciamento de Redes
 
 - `docker network ls`: Lista todas as redes Docker.
@@ -46,6 +54,8 @@ https://phpdocker.io/
 - `docker network disconnect <rede> <container>`: Desconecta um container de uma rede.
 - `docker network prune`: Remove redes não utilizadas.
 
+---
+
 ## Gerenciamento de Volumes
 
 - `docker volume ls`: Lista todos os volumes Docker.
@@ -54,49 +64,148 @@ https://phpdocker.io/
 - `docker volume rm <volume>`: Remove um ou mais volumes.
 - `docker volume prune`: Remove volumes não utilizados.
 
-Esses comandos abrangem uma variedade de funcionalidades do Docker para ajudar no gerenciamento eficiente de imagens, containers, redes e volumes. 
-Explore mais opções e detalhes na documentação oficial do Docker, consulte o [site oficial do Docker](https://docs.docker.com/) para aprofundar seu conhecimento e aproveitar ao máximo essa poderosa ferramenta de virtualização de contêineres.
+---
 
-# Gerenciando Containers
+## Gerenciando Containers
 
-## Iniciando
-No terminal, iremos digitar o seguinte comando:
-`docker container run -p 8080:80 nginx`
-Caso nao tenhamos a imagem localmente em nossa máquina, o próprio docker se encarregará de baixa-la. abra um novo terminal e digite o comando `docker container ls` para verificar a execução do container. 
-Por fim, basta acessarmos o enderço `http://127.0.0.1:8080` , e veremos á página de boas vindas do nginx sendo mostrada devidamente.
+### Iniciando
 
-## Parando o Container
+```bash
+docker container run -p 8080:80 nginx
+```
 
-Para pararmos um container em execução, inicialmente, vamos listar todos os containers para saber qual o id do container que iremos parar, novamente `docker container ls`.
+Caso não tenhamos a imagem localmente em nossa máquina, o próprio Docker se encarregará de baixá-la. Abra um novo terminal e digite:
 
-* `CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                  NAMES
+```bash
+docker container ls
+```
+
+Acesse o endereço `http://127.0.0.1:8080` para visualizar a página de boas-vindas do nginx.
+
+### Parando o Container
+
+```bash
+docker container ls
+```
+
+Exemplo de container listado:
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                  NAMES
 5198670617c7   nginx     "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp   awesome_mestorf
-` 
-Por fim, basta execurtamos o comando docker `docker container stop 5198670617c7`.
+```
 
-## Removendo container
+Para parar:
+```bash
+docker container stop 5198670617c7
+```
 
-Para remover um container, basta executarmos `docker container rm 5198670617c7` ou `docker container rm -f 5198670617c7` para forcar a paralisação, e posteriormente, deletar este container. 
-Podemos passar tabem os 3 primeiros caracteres do id do container. Para remover todos de uma vez só, `docker container rm $(docker container ls -a -q)`.
+### Removendo Container
 
-## Nomeando containers
+```bash
+docker container rm 5198670617c7
+# ou
+docker container rm -f 5198670617c7
+```
 
-`docker container run -d -p 8080:80 --name appNginx nginx`
+Remover todos:
+```bash
+docker container rm $(docker container ls -a -q)
+```
 
-## Verificando logs
+### Nomeando Containers
 
-`docker container logs appNginx`, basta realizar uma requisição para o container, para que os logs sejam mostrados no terminal. 
-Para que os logs sejam mostrados de forma constante, basta adicionar o parametro -f log apos a palavra logs
+```bash
+docker container run -d -p 8080:80 --name appNginx nginx
+```
 
-## Processos de um container
+### Verificando Logs
 
-`docker container top appNginx`
+```bash
+docker container logs appNginx
+# em tempo real:
+docker container logs -f appNginx
+```
 
-## Utilização de recursos do computador
+### Processos de um Container
 
-`docker container stats` ou um container especifico `docker container stats appNginx`
+```bash
+docker container top appNginx
+```
 
-## Verificar informacoes do container
+### Utilização de Recursos
 
-`docker container inspect appNginx`
+```bash
+docker container stats
+# ou
+docker container stats appNginx
+```
 
+### Verificar Informações do Container
+
+```bash
+docker container inspect appNginx
+```
+
+---
+
+## Comandos Docker Compose Essenciais
+
+### Subir Serviços
+```bash
+docker-compose up
+# em segundo plano e forçando build:
+docker-compose up -d --build
+```
+
+### Parar e Limpar
+```bash
+docker-compose down -v --remove-orphans && docker volume prune -f
+```
+
+### Build de Serviços
+```bash
+docker-compose build
+# serviço específico
+docker-compose build nome-do-servico
+```
+
+### Logs
+```bash
+docker-compose logs
+# logs em tempo real de um serviço específico
+docker-compose logs -f app
+```
+
+### Executar Comando em Serviço
+```bash
+docker-compose exec app bash
+```
+
+### Start, Stop e Restart
+```bash
+docker-compose start
+
+docker-compose stop
+
+docker-compose restart
+```
+
+### Verificar Containers
+```bash
+docker-compose ps
+```
+
+---
+
+## Docker Compose vs Docker Puro
+
+| Ação | Docker Compose | Docker Puro |
+|------|----------------|-------------|
+| Subir | `docker-compose up -d` | `docker run -d -p 8080:80 nginx` |
+| Parar e remover tudo | `docker-compose down -v --remove-orphans && docker volume prune -f` | `docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq) && docker volume prune -f` |
+| Executar comando | `docker-compose exec app bash` | `docker exec -it container bash` |
+| Logs | `docker-compose logs -f` | `docker logs -f container` |
+
+---
+
+Para aprofundar seu conhecimento, acesse a [documentação oficial do Docker](https://docs.docker.com/).
