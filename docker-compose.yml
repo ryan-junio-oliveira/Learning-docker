@@ -1,0 +1,80 @@
+services:
+  # aplicação web (PHP+NGINX)
+  web:
+    container_name: web
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - DokSolutionsNetwork
+    volumes:
+      - ./applications:/var/www
+      - ./docker/nginx/sites:/etc/nginx/sites-available
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8331:8331"
+      - "8020:8020"
+      - "8091:8091"
+      - "2000:2000"
+      - "2001:2001"
+    depends_on:
+      - mysql
+      - rabbitmq
+
+  # aplicação MySQL
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.29-debian
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - DOK_SOLUTIONS:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Admini20m07p
+      MYSQL_DATABASE: dbdkwgddcmnt0
+      MYSQL_PASSWORD: Admini20m07p
+    networks:
+      - DokSolutionsNetwork
+    ports:
+      - "30000:3306"
+
+  # phpMyAdmin conectado ao MySQL
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: Admini20m07p
+    depends_on:
+      - mysql
+    networks:
+      - DokSolutionsNetwork
+
+  # RabbitMQ com painel de gerenciamento
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.13-management
+    restart: always
+    ports:
+      - "5672:5672"     # Porta para aplicações (AMQP)
+      - "15672:15672"   # Painel de administração
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - DokSolutionsNetwork
+
+networks:
+  DokSolutionsNetwork:
+
+volumes:
+  DOK_SOLUTIONS:
+    driver: local
+  n8n_data:
+    driver: local
