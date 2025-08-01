@@ -2,9 +2,8 @@
 
 Este é um guia abrangente para os principais comandos do Docker. Aqui estão mais comandos para ajudar no gerenciamento de imagens, containers, redes e volumes Docker.
 
-# Site para gerar projetos
-https://phpdocker.io/
-
+# Um Startup para novos projetos
+- Este repositório serve como base para você se aventurar em projetos docker, possui um ambiente php com nginx , phpmyadmin, mysql, rabbitmq, e outras demais features no Dockerfile
 ---
 
 ## Comandos Gerais
